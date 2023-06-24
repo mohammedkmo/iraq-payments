@@ -1,0 +1,15 @@
+{
+  "index": {
+    "title": "Home",
+    "type": "page"
+  },
+  "docs": {
+    "title": "Documentations",
+    "type": "page",
+    "href": "/docs"
+  },
+  "about": {
+    "title": "About",
+    "type": "page"
+  }
+}
