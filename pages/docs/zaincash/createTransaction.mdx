@@ -1,0 +1,140 @@
+import { Tab, Tabs } from "nextra-theme-docs";
+
+# Create transaction
+
+This following is a simple example of creating a transaction ID for the ccustomer to submit
+
+### Order Details
+
+<Tabs items={['PHP', 'NodeJS']}>
+<Tab>
+```php
+$amount = 250; // Amount in IQ dinar
+
+$service_type = "A book"; //Type of service you provide, like 'Books', 'ecommerce cart', 'Hosting services', ...
+
+$order_id = "Bill_1234567890"; // you can use it to help you in tagging transactions with your website IDs, if you have no order numbers in your website, leave it 1
+
+$redirection_url = 'http://localhost/redirect.php'; // after a successful or failed order, the user will redirect to this url
+```
+</Tab>
+
+<Tab>
+```js
+const amount = 250; // Amount in IQ dinar
+
+const serviceType = "A book"; // Type of service you provide, like 'Books', 'ecommerce cart', 'Hosting services', ...
+
+const orderId = "Bill_1234567890"; // You can use it to help you in tagging transactions with your website IDs. If you have no order numbers on your website, you can leave it as 1
+
+const redirectionUrl = 'http://localhost/redirect.php'; // After a successful or failed order, the user will be redirected to this URL
+```
+</Tab>
+</Tabs>
+
+```
+Notes about $redirection_url:
+in this url, the api will add a new parameter (token) to its end like:
+https://example.com/redirect.php?token=XXXXXXXXXXXXXX```
+
+```
+
+### Building data
+
+<Tabs items={['PHP', 'NodeJS']}>
+<Tab>
+```php
+  $data = [
+  'amount'  => $amount,        
+  'serviceType'  => $service_type,          
+  'msisdn'  => $msisdn, // Your wallet phone number
+  'orderId'  => $order_id,
+  'redirectUrl'  => $redirection_url,
+  'iat'  => time(),
+  'exp'  => time()+60*60*4
+  ];
+```
+</Tab>
+<Tab>
+```js
+const data = {
+  amount: amount,        
+  serviceType: serviceType,          
+  msisdn: msisdn, // Your wallet phone number
+  orderId: orderId,
+  redirectUrl: redirectionUrl,
+  iat: Math.floor(Date.now() / 1000),
+  exp: Math.floor(Date.now() / 1000) + 60 * 60 * 4
+};
+```
+</Tab>
+</Tabs>
+
+### Encoding Token
+
+<Tabs items={['PHP', 'NodeJS']}>
+<Tab>
+```php
+  $token = JWT::encode($data, $secret_key); // $secret_key is your secret key
+
+  $tUrl = 'https://test.zaincash.iq/transaction/init';
+  $rUrl = 'https://test.zaincash.iq/transaction/pay?id=';
+```
+</Tab>
+<Tab>
+```js
+const token = jwt.sign(data, secretKey); // secretKey is your secret key
+
+const tUrl = 'https://test.zaincash.iq/transaction/init';
+const rUrl = 'https://test.zaincash.iq/transaction/pay?id=';
+```
+</Tab>
+</Tabs>
+
+### POST data to ZainCash API
+
+<Tabs items={['PHP', 'NodeJS']}>
+<Tab>
+```php
+  $data_to_post = array();
+  $data_to_post['token'] = urlencode($newtoken);
+  $data_to_post['merchantId'] = $merchantid; // Your merchant ID is requested from ZainCash
+  $data_to_post['lang'] = $language;
+
+  $options = array(
+    'http' => array(
+      'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+      'method'  => 'POST',
+      'content' => http_build_query($data_to_post),
+    ),
+  );
+
+  $context  = stream_context_create($options);
+  $response = file_get_contents($tUrl, false, $context);
+```
+</Tab>
+<Tab>
+```js
+const postData = {
+      token: token, // token is the token you got from the previous step
+      merchantId: merchantId, // Your merchant ID is requested from ZainCash
+      lang: 'en' | 'ar' // en for English, ar for Arabic
+    };
+
+    const requestOptions = {
+      uri: tUrl, // tUrl is the URL you got from the previous step
+      body: JSON.stringify(postData), // postData is the data you want to send to the API
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    };
+    request(requestOptions, function(error, response) {
+        if (error) reject(error);
+        if (response && response.body && JSON.parse(response.body).id)
+          resolve(JSON.parse(response.body).id);
+        reject(response);
+    });
+```
+</Tab>
+</Tabs>

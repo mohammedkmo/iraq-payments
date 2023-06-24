@@ -33,17 +33,8 @@ export default {
     </span>
   ),
   project: {
-    link: "https://github.com/shuding/nextra",
+    link: "https://github.com/mohammedkmo/iraq-payments",
   },
-  banner: {
-    key: "2.0-release",
-    text: (
-      <a href="https://nextra.site" target="_blank">
-        🎉 Iraq-Payments 1.0 is released. Read more →
-      </a>
-    ),
-  },
-  primaryHue: 0,
   footer: {
     text: (
       <span>

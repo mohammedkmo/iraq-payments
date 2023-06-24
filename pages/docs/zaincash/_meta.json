@@ -3,5 +3,8 @@
     "display": "hidden"
   },
   "getting-started": "Getting Started",
-  "integration": "API Integration"
+  "transactionFlow": "Transaction Flow",
+  "createTransaction": "Create transaction",
+  "redirectHandling": "Redirect handling",
+  "checkTransaction": "Check transaction"
 }
