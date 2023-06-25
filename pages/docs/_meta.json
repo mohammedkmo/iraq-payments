@@ -4,8 +4,12 @@
     "title": "Getting Started"
   },
   "introduction": "Introduction",
+  "changelog": "Changelog",
+  "---": {
+    "type": "separator"
+  },
   "zaincash": "ZainCash",
   "asiapay": "AsiaPay",
-  "paytaps": "PayTabs",
+  "paytabs": "PayTabs",
   "fastpay": "FastPay"
 }

@@ -17,5 +17,13 @@ The flow of the transaction of ZainCash can be simplified into the following poi
 
 The below diagram explains the flow.
 
-<img src={'/images/flow1.png'} width="70%"  alt="Image alt" />
-
+```mermaid
+sequenceDiagram
+    customer->>+backend of server: 1
+    backend of server->>+ZainCash: 2
+    ZainCash-->>backend of server: 3
+    backend of server-->>customer: 4
+    customer->>+ZainCash: 5
+    ZainCash-->>backend of server: 6/7
+    backend of server-->>customer: 8
+```

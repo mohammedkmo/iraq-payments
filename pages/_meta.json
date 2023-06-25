@@ -1,15 +1,23 @@
 {
+
+  "*": {
+    "type": "page"
+  },
   "index": {
     "title": "Home",
-    "type": "page"
+    "theme": {
+      "sidebar": false,
+      "layout": "full",
+      "typesetting": "article"
+    }
   },
-  "docs": {
-    "title": "Documentations",
-    "type": "page",
-    "href": "/docs"
-  },
+  "docs": "Documentations",
   "about": {
     "title": "About",
-    "type": "page"
+    "theme": {
+      "sidebar": false,
+      "layout": "full",
+      "typesetting": "article"
+    }
   }
 }

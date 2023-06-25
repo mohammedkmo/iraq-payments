@@ -8,7 +8,7 @@ This following is a simple example of creating a transaction ID for the ccustome
 
 <Tabs items={['PHP', 'NodeJS']}>
 <Tab>
-```php
+```php copy
 $amount = 250; // Amount in IQ dinar
 
 $service_type = "A book"; //Type of service you provide, like 'Books', 'ecommerce cart', 'Hosting services', ...
@@ -20,7 +20,7 @@ $redirection_url = 'http://localhost/redirect.php'; // after a successful or fai
 </Tab>
 
 <Tab>
-```js
+```js copy
 const amount = 250; // Amount in IQ dinar
 
 const serviceType = "A book"; // Type of service you provide, like 'Books', 'ecommerce cart', 'Hosting services', ...
@@ -43,7 +43,7 @@ https://example.com/redirect.php?token=XXXXXXXXXXXXXX```
 
 <Tabs items={['PHP', 'NodeJS']}>
 <Tab>
-```php
+```php copy
   $data = [
   'amount'  => $amount,        
   'serviceType'  => $service_type,          
@@ -56,7 +56,7 @@ https://example.com/redirect.php?token=XXXXXXXXXXXXXX```
 ```
 </Tab>
 <Tab>
-```js
+```js copy
 const data = {
   amount: amount,        
   serviceType: serviceType,          
@@ -74,7 +74,7 @@ const data = {
 
 <Tabs items={['PHP', 'NodeJS']}>
 <Tab>
-```php
+```php copy
   $token = JWT::encode($data, $secret_key); // $secret_key is your secret key
 
   $tUrl = 'https://test.zaincash.iq/transaction/init';
@@ -82,7 +82,7 @@ const data = {
 ```
 </Tab>
 <Tab>
-```js
+```js copy
 const token = jwt.sign(data, secretKey); // secretKey is your secret key
 
 const tUrl = 'https://test.zaincash.iq/transaction/init';
@@ -95,7 +95,7 @@ const rUrl = 'https://test.zaincash.iq/transaction/pay?id=';
 
 <Tabs items={['PHP', 'NodeJS']}>
 <Tab>
-```php
+```php copy
 $data_to_post = array();
 $data_to_post['token'] = urlencode($newtoken);
 $data_to_post['merchantId'] = $merchantid; // Your merchant ID is requested from ZainCash
@@ -114,7 +114,7 @@ $response = file_get_contents($tUrl, false, $context);
 ```
 </Tab>
 <Tab>
-```js
+```js copy
 const postData = {
       token: token, // token is the token you got from the previous step
       merchantId: merchantId, // Your merchant ID is requested from ZainCash

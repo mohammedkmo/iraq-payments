@@ -62,7 +62,7 @@ export default {
         content="https://github.com/mohammedkmo/iraq-payments/blob/main/public/images/github-image.jpg"
       />
       <link rel="shortcut icon" href="/favicon.ico" />
-      <meta property="og:type" content="page" />
+      <meta property="og:type" content="website" />
     </>
   ),
   useNextSeoProps() {
@@ -70,4 +70,13 @@ export default {
       titleTemplate: "%s – Iraq Payments",
     };
   },
+  banner: {
+    key: "1.0-release",
+    text: (
+      <a href="/docs/changelog">
+        🎉 Iraq-Payments 1.0 is released. Read more →
+      </a>
+    ),
+  },
+  docsRepositoryBase: 'https://github.com/mohammedkmo/iraq-payments'
 };
