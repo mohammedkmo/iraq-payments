@@ -96,21 +96,21 @@ const rUrl = 'https://test.zaincash.iq/transaction/pay?id=';
 <Tabs items={['PHP', 'NodeJS']}>
 <Tab>
 ```php
-  $data_to_post = array();
-  $data_to_post['token'] = urlencode($newtoken);
-  $data_to_post['merchantId'] = $merchantid; // Your merchant ID is requested from ZainCash
-  $data_to_post['lang'] = $language;
+$data_to_post = array();
+$data_to_post['token'] = urlencode($newtoken);
+$data_to_post['merchantId'] = $merchantid; // Your merchant ID is requested from ZainCash
+$data_to_post['lang'] = $language;
 
-  $options = array(
-    'http' => array(
-      'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
-      'method'  => 'POST',
-      'content' => http_build_query($data_to_post),
-    ),
-  );
+$options = array(
+'http' => array(
+    'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+    'method'  => 'POST',
+    'content' => http_build_query($data_to_post),
+),
+);
 
-  $context  = stream_context_create($options);
-  $response = file_get_contents($tUrl, false, $context);
+$context  = stream_context_create($options);
+$response = file_get_contents($tUrl, false, $context);
 ```
 </Tab>
 <Tab>
@@ -121,20 +121,21 @@ const postData = {
       lang: 'en' | 'ar' // en for English, ar for Arabic
     };
 
-    const requestOptions = {
-      uri: tUrl, // tUrl is the URL you got from the previous step
-      body: JSON.stringify(postData), // postData is the data you want to send to the API
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    };
-    request(requestOptions, function(error, response) {
-        if (error) reject(error);
-        if (response && response.body && JSON.parse(response.body).id)
-          resolve(JSON.parse(response.body).id);
-        reject(response);
-    });
+const requestOptions = {
+    uri: tUrl, // tUrl is the URL you got from the previous step
+    body: JSON.stringify(postData), // postData is the data you want to send to the API
+    method: "POST",
+    headers: {
+    "Content-Type": "application/json"
+    }
+};
+
+request(requestOptions, function(error, response) {
+    if (error) reject(error);
+    if (response && response.body && JSON.parse(response.body).id)
+        resolve(JSON.parse(response.body).id);
+    reject(response);
+});
 ```
 </Tab>
 </Tabs>

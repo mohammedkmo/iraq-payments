@@ -1,1 +1,117 @@
+import { Tab, Tabs } from "nextra-theme-docs";
+
 # Redirect handling
+
+This following is a simple example of handling the redirect and decode of the token received after transaction complete.
+
+<Tabs items={['PHP', 'NodeJS']}>
+<Tab>
+```php
+require_once('credentials.php');
+  require_once('includes/autoload.php');
+  use \Firebase\JWT\JWT;
+  
+  
+  /* ------------------------------------------------------------------------------
+  Notes about $redirection_url: 
+  in this url, the api will add a new parameter (token) to its end like:
+  https://example.com/redirect.php?token=XXXXXXXXXXXXXX
+  */
+  
+  if (isset($_GET['token'])){
+  
+    //you can decode the token by this PHP code:
+    $result= JWT::decode($_GET['token'], $secret, array('HS256'));
+    echo json_encode($result);
+    $result= (array) $result;
+  
+    //And to check for status of the transaction, use $result['status'], like this:
+    if ($result['status']=='success'){
+      //Successful transaction
+      
+      //$result will be like this example:
+      /*
+      array(5) {
+        ["status"]=>
+        string(7) "success"
+        ["orderid"]=>
+        string(9) "Bill12345"
+        ["id"]=>
+        string(24) "58650f0f90c6362288da08cf"
+        ["iat"]=>
+        int(1483018052)
+        ["exp"]=>
+        int(1483032452)
+      }
+      */
+    }
+    if ($result['status']=='failed'){
+      //Failed transaction and its reason
+      $reason=$result['msg'];		
+      //$result will be like this example:
+      /*
+      array(6) {
+        ["status"]=>
+        string(6) "failed"
+        ["msg"]=>
+        string(33) "Invalid credentials for requester"
+        ["orderid"]=>
+        string(9) "Bill12345"
+        ["id"]=>
+        string(24) "58650ca990c6362288da08c8"
+        ["iat"]=>
+        int(1483017397)
+        ["exp"]=>
+        int(1483020997)
+      }
+      */
+  
+    }
+  } else {
+    //Cancelled transaction (if he clicked "Cancel and go back"
+    //NO TOKEN HERE
+  }
+```
+</Tab>
+
+<Tab>
+```js
+const jwt = require('jsonwebtoken');
+const querystring = require('querystring');
+
+const secret = 'your_secret_key'; // Replace with your actual secret key
+
+// Redirect URL
+const redirectionUrl = 'https://example.com/redirect.php';
+
+// Check if the token is present in the URL
+const query = querystring.parse(new URL(redirectionUrl).search.substring(1));
+if (query.token) {
+  try {
+    const result = jwt.verify(query.token, secret);
+
+    console.log(JSON.stringify(result));
+    const resultObj = JSON.parse(JSON.stringify(result));
+
+    // Check the transaction status
+    if (resultObj.status === 'success') {
+      // Successful transaction
+      console.log('Successful transaction');
+    } else if (resultObj.status === 'failed') {
+      // Failed transaction and its reason
+      const reason = resultObj.msg;
+      console.log('Failed transaction:', reason);
+    }
+  } catch (error) {
+    console.error('Token verification failed:', error.message);
+  }
+} else {
+  // Cancelled transaction (if the user clicked "Cancel and go back")
+  // No token here
+  console.log('Cancelled transaction');
+}
+```
+</Tab>
+
+</Tabs>
+

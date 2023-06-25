@@ -1,6 +1,3 @@
-
-
-
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   logo: (
@@ -38,32 +35,39 @@ export default {
   footer: {
     text: (
       <span>
-        Iraq Payment {new Date().getFullYear()} ©{' '}
+        Iraq Payment {new Date().getFullYear()} ©{" "}
         <a href="https://mohammedk.me" target="_blank">
           Mohammedk
         </a>
         .
       </span>
-    )
+    ),
   },
   head: (
     <>
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <meta property="og:title" content="Iraq Payments" />
       <meta property="og:description" content="Get All docs you need" />
-      <meta property="og:image" content="https://nextra.vercel.app/banner.png" />
-      <meta property="og:url" content="https://nextra.vercel.app" />
+      <meta
+        property="og:image"
+        content="https://github.com/mohammedkmo/iraq-payments/blob/main/public/images/github-image.jpg"
+      />
+      <meta property="og:url" content="https://iraqpayments.com" />
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:site" content="@mohammedk_1" />
+      <meta name="twitter:site" content="@mohammedkmo" />
       <meta name="twitter:title" content="Iraq Payments" />
       <meta name="twitter:description" content="Get All docs you need" />
-      <meta name="twitter:image" content="https://nextra.vercel.app/banner.png" />
+      <meta
+        name="twitter:image"
+        content="https://github.com/mohammedkmo/iraq-payments/blob/main/public/images/github-image.jpg"
+      />
       <link rel="shortcut icon" href="/favicon.ico" />
+      <meta property="og:type" content="page" />
     </>
   ),
   useNextSeoProps() {
     return {
-      titleTemplate: '%s – Iraq Payments'
-    }
-  }
+      titleTemplate: "%s – Iraq Payments",
+    };
+  },
 };

@@ -1,1 +1,126 @@
+import { Tab, Tabs } from "nextra-theme-docs";
+
 # Check transaction
+
+Sometimes transactions go pending due to connectivity issue ove the customer's end, in such cases you can check for the status of the transaction as explained in the following simple example.
+
+
+<Tabs items={['PHP', 'NodeJS']}>
+<Tab>
+```php
+require_once('credentials.php');
+  require_once('includes/autoload.php');
+  use \Firebase\JWT\JWT;
+  
+  // ----------------- Request Details --------------------------
+  // The ID for the transaction you want to check
+  $id = '61ac94f43c22082431672b27';
+  
+  //building data
+  $data = [
+    'id'  => $id,                
+    'msisdn'  => $msisdn,
+    'iat'  => time(),
+    'exp'  => time()+60*60*4
+  ];
+  
+  //Encoding Token
+  $newtoken = JWT::encode(
+  $data, //Data to be encoded in the JWT
+  $secret ,'HS256'
+  );
+  
+  //Check if test or production mode
+  if($production_cred){
+    $rUrl = 'https://api.zaincash.iq/transaction/get';
+  }else{
+    $rUrl = 'https://test.zaincash.iq/transaction/get';
+  }
+  
+  //POST data to ZainCash API
+  $data_to_post = array();
+  $data_to_post['token'] = urlencode($newtoken);
+  $data_to_post['merchantId'] = $merchantid;
+  $options = array(
+  'http' => array(
+  'header' => "Content-type: application/x-www-form-urlencoded\r\n",
+  'method' => 'POST',
+  'content' => http_build_query($data_to_post),
+  ),
+  );
+  $context = stream_context_create($options);
+  $response = file_get_contents($rUrl, false, $context);
+  
+  echo $response;
+```
+</Tab>
+<Tab>
+```js
+const jwt = require('jsonwebtoken');
+const querystring = require('querystring');
+const https = require('https');
+
+const secret = 'your_secret_key'; // Replace with your actual secret key
+const productionCred = true; // Set to true for production credentials, false for test credentials
+
+// Transaction ID
+const id = '61ac94f43c22082431672b27';
+
+// Building data
+const data = {
+  id: id,
+  msisdn: msisdn,
+  iat: Math.floor(Date.now() / 1000),
+  exp: Math.floor(Date.now() / 1000) + 60 * 60 * 4
+};
+
+// Encoding Token
+const newToken = jwt.sign(data, secret, { algorithm: 'HS256' });
+
+// Check if test or production mode
+let rUrl;
+if (productionCred) {
+  rUrl = 'https://api.zaincash.iq/transaction/get';
+} else {
+  rUrl = 'https://test.zaincash.iq/transaction/get';
+}
+
+// POST data to ZainCash API
+const dataToPost = {
+  token: encodeURIComponent(newToken),
+  merchantId: merchantid
+};
+
+const postData = querystring.stringify(dataToPost);
+
+const options = {
+  hostname: new URL(rUrl).hostname,
+  path: new URL(rUrl).pathname,
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded',
+    'Content-Length': Buffer.byteLength(postData)
+  }
+};
+
+const req = https.request(options, (res) => {
+  let responseData = '';
+
+  res.on('data', (chunk) => {
+    responseData += chunk;
+  });
+
+  res.on('end', () => {
+    console.log(responseData);
+  });
+});
+
+req.on('error', (error) => {
+  console.error(error);
+});
+
+req.write(postData);
+req.end();
+```
+</Tab>
+</Tabs>
