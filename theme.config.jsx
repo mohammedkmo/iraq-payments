@@ -78,5 +78,5 @@ export default {
       </a>
     ),
   },
-  docsRepositoryBase: 'https://github.com/mohammedkmo/iraq-payments'
+  docsRepositoryBase: 'https://github.com/mohammedkmo/iraq-payments/tree/main'
 };
